@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f5f2ed;
+  --color-ink: #1a1a1a;
+  --color-accent: #8b0000; /* Dark Red / Crimson */
+  --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+  --font-kaiti: "KaiTi", "楷体", serif;
+}
+
+@layer base {
+  body {
+    @apply bg-paper text-ink font-serif;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}

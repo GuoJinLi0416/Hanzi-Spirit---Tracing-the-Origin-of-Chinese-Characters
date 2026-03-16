@@ -1,0 +1,5 @@
+{
+  "name": "字里乾坤 Hanzi Spirit",
+  "description": "基于《说文解字》的汉字美学与字源科普平台，结合 Gemini 多模态生成技术，带你领略汉字背后的乾坤。",
+  "requestFramePermissions": []
+}
