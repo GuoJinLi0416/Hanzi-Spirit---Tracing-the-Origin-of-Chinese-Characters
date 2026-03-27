@@ -376,31 +376,47 @@ export default function App() {
                 </p>
               </div>
             ) : analysis && (
-              <div className="flex flex-col items-center space-y-8">
-                {analysis.map((part: any, idx: number) => {
-                  if (part.type === 'text') {
-                    return (
-                      <div key={idx} className="w-full max-w-2xl p-6 bg-white/50 backdrop-blur-sm border border-accent/10 rounded-2xl shadow-sm">
-                        <p className="text-ink/80 leading-relaxed font-serif text-lg">{part.content}</p>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                {/* Left Side: MiZiGe, Etymology & Modern Definitions */}
+                <div className="lg:col-span-12 flex flex-col items-center space-y-8">
+                  <MiZiGe char={analysis.char} pinyin={analysis.pinyin} lang={lang} />
+                  
+                  {/* Origin/Etymology */}
+                  <div className="w-full max-w-2xl p-6 bg-white/50 backdrop-blur-sm border border-accent/10 rounded-2xl shadow-sm">
+                    <h3 className="text-sm font-bold text-accent uppercase tracking-widest mb-4 flex items-center gap-2">
+                      <BookOpen size={16} />
+                      {lang === 'zh' ? '字源本意' : 'Etymology'}
+                    </h3>
+                    <p className="text-ink/80 leading-relaxed font-serif text-lg">
+                      {lang === 'zh' ? analysis.explanation.zh_origin : analysis.explanation.en_origin}
+                    </p>
+                  </div>
+
+                  {/* Modern Definitions */}
+                  {analysis.explanation[`${lang}_modern`] && (
+                    <div className="w-full max-w-2xl p-6 bg-white/50 backdrop-blur-sm border border-accent/10 rounded-2xl shadow-sm">
+                      <h3 className="text-sm font-bold text-accent uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <Search size={16} />
+                        {lang === 'zh' ? '现代释义' : 'Modern Definitions'}
+                      </h3>
+                      <div className="space-y-4">
+                        {analysis.explanation[`${lang}_modern`].map((item: any, idx: number) => (
+                          <div key={idx} className="border-l-2 border-accent/10 pl-4 py-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-[10px] font-bold bg-accent/10 text-accent px-1.5 py-0.5 rounded uppercase">
+                                {item.pos}
+                              </span>
+                              <span className="text-ink font-medium">{item.def}</span>
+                            </div>
+                            <div className="text-xs text-ink/50 italic">
+                              {lang === 'zh' ? '举例：' : 'Example: '}{item.example}
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    );
-                  } else if (part.type === 'image') {
-                    return (
-                      <div key={idx} className="w-full max-w-2xl p-6 bg-white/50 backdrop-blur-sm border border-accent/10 rounded-2xl shadow-sm">
-                        <h3 className="text-sm font-bold text-accent uppercase tracking-widest mb-4">Visual</h3>
-                        <p className="text-ink/80 italic">{part.content}</p>
-                      </div>
-                    );
-                  } else if (part.type === 'video') {
-                    return (
-                      <div key={idx} className="w-full max-w-2xl p-6 bg-white/50 backdrop-blur-sm border border-accent/10 rounded-2xl shadow-sm">
-                        <h3 className="text-sm font-bold text-accent uppercase tracking-widest mb-4">Video</h3>
-                        <p className="text-ink/80 italic">{part.content}</p>
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </motion.div>

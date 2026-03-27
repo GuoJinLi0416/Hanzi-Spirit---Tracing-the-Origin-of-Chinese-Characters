@@ -406,7 +406,15 @@ JSON 格式示例：
           }
         }
         
-        res.json(parsed);
+        // Transform to array
+        const responseParts = [
+          { type: 'text', content: `拼音: ${parsed.pinyin}` },
+          { type: 'text', content: `字源: ${parsed.explanation.zh_origin}` },
+          { type: 'text', content: `现代释义:\n${parsed.explanation.zh_modern.map((m: any) => `${m.pos} ${m.def} (${m.example})`).join('\n')}` },
+          { type: 'text', content: `英文释义:\n${parsed.explanation.en_modern.map((m: any) => `${m.pos} ${m.def} (${m.example})`).join('\n')}` }
+        ];
+        
+        res.json(responseParts);
       } catch (parseError) {
         console.error("JSON Parse Error. Raw text:", text);
         // Try to fix common issues or just return error
